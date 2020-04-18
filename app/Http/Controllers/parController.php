@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\pars;
+use PDF;
+use Redirect;
 use Yajra\Datatables\Datatables;
 
 
@@ -21,18 +23,25 @@ class parController extends Controller
             $data = pars::latest()->get();
             return Datatables::of($data)
                     ->addIndexColumn()
-                    ->addColumn('action', function($row){
-   
-                           $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit"class="edit btn btn-primary btn-sm editPar">E D I T</a>';
+                    ->addColumn('action',function($row){
 
-   
-                           $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deletePar">Delete</a>';
-    
-                            return $btn;
-                    })
-                    ->rawColumns(['action'])
+                    
+
+                           return '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit"class="edit btn btn-primary btn-sm editPar">Print CTS</a>';
+                       })
+                            
+
+
+                           //  $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-info btn-sm Trello Link">Tre l l o</a>';
+                           //   $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-success btn-sm Print">P r i n t</a>';
+                           // return $btn;
+
+                    ->addColumn('checkbox', '<input type="checkbox" name="student_checkbox[]" class="student_checkbox" value="{{$id}}" />')
+                    
+                    ->rawColumns(['checkbox','action'])
                     ->make(true);
         }
+
 
       
         return view('parAjax',compact('pars'));
